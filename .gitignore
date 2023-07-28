@@ -1,2 +1,5 @@
 #venv環境
 face_env/
+
+#顔写真
+data/input/person1.jpg
