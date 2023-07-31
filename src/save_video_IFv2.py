@@ -20,7 +20,7 @@ def draw_on(img, faces, name):
                 if l == 0 or l == 3:
                     color = (0, 255, 0)
                 cv2.circle(dimg, (kps[l][0], kps[l][1]), 1, color, 2)
-        cv2.putText(dimg, name, (box[0]-1, box[1]-4),cv2.FONT_HERSHEY_COMPLEX,0.7,(0,255,0),1)
+        cv2.putText(dimg, name, (box[0]-1, box[1]-4),cv2.FONT_HERSHEY_COMPLEX,1.5,(0,255,0),2)
 
     return dimg
 
@@ -30,8 +30,8 @@ app.prepare(ctx_id=1, det_size=(640, 640))
 img_path = 'data/input/person2_iphone.JPG'
 img = cv2.imread(img_path)
 
-face_k = app.get(img)
-embedding = [face_k[0].embedding]
+face1 = app.get(img)
+embedding = [face1[0].embedding]
 
 known_face_name = ["Unknown", "kajima"]
 
@@ -47,16 +47,15 @@ while True:
     faces = app.get(flame)
     embedding2 = faces[0].embedding
 
-    for embeddings in embedding:
-        sim = compute_sim(embeddings, embedding2)
-        print(sim)
-        if sim >= 0.70:
-            best_index = embedding.index(embeddings) + 1
-        else:
-            best_index = 0
+    sim = compute_sim(embedding, embedding2)
+    print(sim)
+    if sim >= 0.70:
+        best_name_index = embedding.index(embedding[0]) + 1
+    else:
+        best_name_index = 0
 
 
-    detect = draw_on(flame, faces, known_face_name[best_index])
+    detect = draw_on(flame, faces, known_face_name[best_name_index])
 
     if i != 0:
         cv2.imwrite(f'data/output/IFv2/Face_output_v2_{i}.jpg', detect)
