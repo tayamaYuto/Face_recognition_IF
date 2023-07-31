@@ -3,26 +3,31 @@ import cv2
 import numpy as np
 
 
-video_capture = cv2.VideoCapture(0)
+
 
 # 画像を読み込み、顔の特徴値を取得する
-hasegawa_image = face_recognition.load_image_file("images/hasegawa.jpg")
-hasegawa_face_encoding = face_recognition.face_encodings(hasegawa_image)[0]
-kanba_image = face_recognition.load_image_file("images/kanba.jpg")
-kanba_face_encoding = face_recognition.face_encodings(kanba_image)[0]
-uema_image = face_recognition.load_image_file("images/uema.jpg")
-uema_face_encoding = face_recognition.face_encodings(uema_image)[0]
+
+yuto_image = face_recognition.load_image_file("data/input/person1.jpg")
+yuto_face_encoding = face_recognition.face_encodings(yuto_image)[0]
+
+kajima_image = face_recognition.load_image_file("data/input/person2.png")
+kajima_face_encoding = face_recognition.face_encodings(kajima_image)[0]
+
+#uema_image = face_recognition.load_image_file("images/uema.jpg")
+#uema_face_encoding = face_recognition.face_encodings(uema_image)[0]
 
 known_face_encodings = [
-    hasegawa_face_encoding,
-    kanba_face_encoding,
-    uema_face_encoding,
+    yuto_face_encoding,
+    kajima_face_encoding,
+    #uema_face_encoding,
 ]
 known_face_names = [
-    "Hasegawa",
-    "Kanba",
-    "Uema",
+    "yuto",
+    "kajima",
+    #"Uema",
 ]
+
+video_capture = cv2.VideoCapture(0)
 
 while True:
     # Webカメラの1フレームを取得、顔を検出し顔の特徴値を取得する
@@ -56,6 +61,3 @@ while True:
     cv2.imshow('WebCam', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-video_capture.release()
-cv2.destroyAllWindows()

@@ -30,12 +30,13 @@ app.prepare(ctx_id=1, det_size=(640, 640))
 img_path = 'data/input/person2_iphone.JPG'
 img = cv2.imread(img_path)
 
-face1 = app.get(img)
-embedding1 = [face1[0].embedding]
+face_k = app.get(img)
+embedding = [face_k[0].embedding]
 
 known_face_name = ["Unknown", "kajima"]
 
 capture = cv2.VideoCapture(0)
+i = 0
 
 while True:
     ret, flame = capture.read()
@@ -46,18 +47,21 @@ while True:
     faces = app.get(flame)
     embedding2 = faces[0].embedding
 
-    for embeddings in embedding1:
+    for embeddings in embedding:
         sim = compute_sim(embeddings, embedding2)
         print(sim)
         if sim >= 0.70:
-            best_index = embedding1.index(embeddings) + 1
+            best_index = embedding.index(embeddings) + 1
         else:
             best_index = 0
 
 
     detect = draw_on(flame, faces, known_face_name[best_index])
 
-    cv2.imshow("Face", detect)
+    if i != 0:
+        cv2.imwrite(f'data/output/IFv2/Face_output_v2_{i}.jpg', detect)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    i += 1
+
+    if i == 26:
         break
