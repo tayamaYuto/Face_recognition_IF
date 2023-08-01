@@ -27,13 +27,13 @@ def draw_on(img, faces, name):
 app = FaceAnalysis()
 app.prepare(ctx_id=1, det_size=(640, 640))
 
-img_path = 'data/input/person2_iphone.JPG'
+img_path = 'data/input/person1.JPG'
 
 pre_img = cv2.imread(img_path)
 pre_face = app.get(pre_img)
 pre_embedding = [pre_face[0].embedding]
 
-known_face_name = ["Unknown", "kajima"]
+known_face_name = ["Unknown", "yuto"]
 
 capture = cv2.VideoCapture(0)
 
