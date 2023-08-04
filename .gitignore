@@ -2,4 +2,7 @@
 face_env/
 
 #顔写真
-data/
+data/input/
+data/output/
+
+.insightface/
